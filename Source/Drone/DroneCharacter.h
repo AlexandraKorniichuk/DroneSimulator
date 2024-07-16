@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "DroneCharacter.generated.h"
 
+class UHealthComponent;
 class UInputComponent;
 class USkeletalMeshComponent;
 class UCameraComponent;
@@ -42,6 +43,9 @@ public:
 
 protected:
 	virtual void BeginPlay();
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component")
+	UHealthComponent* HealthComponent;
 
 public:
 		

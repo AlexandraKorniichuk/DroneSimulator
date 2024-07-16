@@ -9,5 +9,10 @@ public class Drone : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+		
+		PublicIncludePaths.AddRange(new string[] {
+			"Components/",
+			"UI/",
+		});
 	}
 }

@@ -41,9 +41,14 @@ void UHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const
 	}
 }
 
-void UHealthComponent::Heal(float HealAmount)
+bool UHealthComponent::TryToHeal(float HealAmount)
 {
+	if (IsDead() || IsFullHealth())
+	{
+		return false;
+	}
 	UpdateHealth(Health + HealAmount);
+	return true;
 }
 
 

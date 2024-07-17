@@ -22,7 +22,8 @@ public:
 
 	float GetHealth() const { return Health; }
 	bool IsDead() const { return FMath::IsNearlyZero(Health); }
-	void Heal(float HealAmount);
+	bool IsFullHealth() const { return FMath::IsNearlyEqual(Health, MaxHealth); }
+	bool TryToHeal(float HealAmount);
 
 	FOnDeath OnDeath;
 	FOnHealthChanged OnHealthChanged;

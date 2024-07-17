@@ -2,6 +2,7 @@
 
 
 #include "DroneHUDWidget.h"
+#include "Curves/CurveLinearColor.h"
 #include "Drone/Components/UHealthComponent.h"
 
 void UDroneHUDWidget::NativeConstruct()
@@ -39,6 +40,6 @@ void UDroneHUDWidget::SetHealthComponent()
 
 FLinearColor UDroneHUDWidget::GetHealthBarColor(float HealthPercent) const
 {
-	FLinearColor HealthColor = FLinearColor::LerpUsingHSV(MinHealthColor, MaxHealthColor, HealthPercent);
+	FLinearColor HealthColor = HealthColorCurve->GetLinearColorValue(HealthPercent);
 	return HealthColor;
 }

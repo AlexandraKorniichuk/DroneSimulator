@@ -28,10 +28,7 @@ protected:
 	FLinearColor GetHealthBarColor(float HealthPercent) const;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
-	FLinearColor MaxHealthColor = FLinearColor::Green;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Health")
-	FLinearColor MinHealthColor = FLinearColor::Red;
+    UCurveLinearColor* HealthColorCurve;
 	
 private:
 	UHealthComponent* HealthComponent;

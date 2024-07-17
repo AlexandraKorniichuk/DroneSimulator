@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TP_WeaponComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "DroneHUDWidget.generated.h"
 
@@ -21,6 +22,12 @@ public:
 protected:
 	virtual void NativeConstruct() override;
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Weapon")
+	void OnAmmoChanged(float Bullets, float Clips);
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Weapon")
+	void OnWeaponUnequipped(UTP_WeaponComponent* WeaponComponent);
+	void OnWeaponEquipped(UTP_WeaponComponent* WeaponComponent);
+	
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Health")
 	void OnHealthChanged(float Health);
 

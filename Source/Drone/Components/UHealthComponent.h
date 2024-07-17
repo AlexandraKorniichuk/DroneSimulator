@@ -7,7 +7,7 @@
 #include "UHealthComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnDeath);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float Health);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class DRONE_API UHealthComponent : public UActorComponent

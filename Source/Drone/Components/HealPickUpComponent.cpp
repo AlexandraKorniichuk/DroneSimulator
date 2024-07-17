@@ -12,7 +12,7 @@ UHealPickUpComponent::UHealPickUpComponent()
 void UHealPickUpComponent::TryToHeal(APawn* PawnToHeal) 
 {
 	UHealthComponent* HealthComponent = Cast<UHealthComponent>(PawnToHeal->GetComponentByClass(UHealthComponent::StaticClass()));
-	if (HealthComponent &&HealthComponent->TryToHeal(HealAmount))
+	if (HealthComponent && HealthComponent->TryToHeal(HealAmount))
 	{
 		GetOwner()->Destroy();
 	}

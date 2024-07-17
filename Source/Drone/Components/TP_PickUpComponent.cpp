@@ -19,6 +19,5 @@ void UTP_PickUpComponent::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedCo
 	if(ADroneCharacter* Character = Cast<ADroneCharacter>(OtherActor))
 	{
 		OnPickUp.Broadcast(Character);
-		OnComponentBeginOverlap.RemoveAll(this);
 	}
 }

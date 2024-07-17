@@ -13,11 +13,20 @@
 #include "Engine/LocalPlayer.h"
 #include "Engine/World.h"
 
+DEFINE_LOG_CATEGORY(LogWeapon);
+
+
 UTP_WeaponComponent::UTP_WeaponComponent()
 {
 	MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
 }
 
+void UTP_WeaponComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	CurrentWeaponData = DefaultWeaponData;
+}
 
 void UTP_WeaponComponent::Fire()
 {
@@ -25,6 +34,13 @@ void UTP_WeaponComponent::Fire()
 	{
 		return;
 	}
+
+	if (IsAmmoEmpty())
+	{
+		return;
+	}
+
+	DecreaseAmmo();
 
 	UWorld* const World = GetWorld();
 	if (ProjectileClass && World)
@@ -63,6 +79,8 @@ bool UTP_WeaponComponent::AttachWeapon(ADroneCharacter* TargetCharacter)
 		return false;
 	}
 
+	Character->OnWeaponEquipped.Broadcast(this);
+
 	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, true);
 	AttachToComponent(Character->GetMesh1P(), AttachmentRules, FName(TEXT("GripPoint")));
 
@@ -81,7 +99,59 @@ bool UTP_WeaponComponent::AttachWeapon(ADroneCharacter* TargetCharacter)
 		}
 	}
 
+	OnAmmoChanged.Broadcast(CurrentWeaponData.Bullets, CurrentWeaponData.Clips);
+
 	return true;
+}
+
+bool UTP_WeaponComponent::TryToAddAmmo(int Ammo)
+{
+	if (IsAmmoFull())
+	{
+		return false;
+	}
+
+	int CurrentTotal = CurrentWeaponData.Bullets + CurrentWeaponData.Clips * DefaultWeaponData.Bullets;
+	int NewTotal = FMath::Clamp(CurrentTotal + Ammo, 0, DefaultWeaponData.Bullets * (DefaultWeaponData.Clips + 1));
+
+	int NewBullets = NewTotal % DefaultWeaponData.Bullets;
+	CurrentWeaponData.Bullets = NewBullets ? NewBullets : DefaultWeaponData.Bullets;
+	CurrentWeaponData.Clips = (NewTotal - CurrentWeaponData.Bullets) / DefaultWeaponData.Bullets;
+	
+	OnAmmoChanged.Broadcast(CurrentWeaponData.Bullets, CurrentWeaponData.Clips);
+	
+	return true;
+}
+
+void UTP_WeaponComponent::DecreaseAmmo()
+{
+	CurrentWeaponData.Bullets--;
+
+	if (CurrentWeaponData.Bullets <= 0)
+	{
+		Reload();
+	}
+
+	OnAmmoChanged.Broadcast(CurrentWeaponData.Bullets, CurrentWeaponData.Clips);
+}
+
+void UTP_WeaponComponent::Reload()
+{
+	if (CurrentWeaponData.Clips <= 0) return;
+
+	CurrentWeaponData.Clips--;
+	CurrentWeaponData.Bullets = DefaultWeaponData.Bullets;
+}
+
+bool UTP_WeaponComponent::IsAmmoEmpty() const
+{
+	return CurrentWeaponData.Bullets == 0 && CurrentWeaponData.Clips == 0;
+}
+
+bool UTP_WeaponComponent::IsAmmoFull() const
+{
+	return CurrentWeaponData.Bullets == DefaultWeaponData.Bullets &&
+		CurrentWeaponData.Clips == DefaultWeaponData.Clips;
 }
 
 void UTP_WeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)

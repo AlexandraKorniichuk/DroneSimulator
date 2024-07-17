@@ -2,7 +2,10 @@
 
 
 #include "DroneHUDWidget.h"
+
+#include "TP_WeaponComponent.h"
 #include "Curves/CurveLinearColor.h"
+#include "Drone/DroneCharacter.h"
 #include "Drone/Components/UHealthComponent.h"
 
 void UDroneHUDWidget::NativeConstruct()
@@ -15,6 +18,15 @@ void UDroneHUDWidget::NativeConstruct()
 	{
 		HealthComponent->OnHealthChanged.AddUObject(this, &UDroneHUDWidget::OnHealthChanged);
 	}
+
+	ADroneCharacter* DroneCharacter = Cast<ADroneCharacter>(GetOwningPlayerPawn());
+	DroneCharacter->OnWeaponUnequipped.AddUObject(this, &UDroneHUDWidget::OnWeaponUnequipped);
+	DroneCharacter->OnWeaponEquipped.AddUObject(this, &UDroneHUDWidget::OnWeaponEquipped);
+}
+
+void UDroneHUDWidget::OnWeaponEquipped(UTP_WeaponComponent* WeaponComponent)
+{
+	WeaponComponent->OnAmmoChanged.AddUObject(this, &UDroneHUDWidget::OnAmmoChanged);
 }
 
 float UDroneHUDWidget::GetHealthPercent()
@@ -32,6 +44,7 @@ float UDroneHUDWidget::GetHealthPercent()
 	
 	return HealthComponent ? HealthComponent->GetHealthPercent() : 0.0f;
 }
+
 
 void UDroneHUDWidget::SetHealthComponent()
 {

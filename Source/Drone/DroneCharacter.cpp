@@ -29,6 +29,8 @@ ADroneCharacter::ADroneCharacter()
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("HealthComponent");
+
+	OnWeaponEquipped.AddUObject(this, &ADroneCharacter::SetWeaponComponent);
 }
 
 void ADroneCharacter::BeginPlay()

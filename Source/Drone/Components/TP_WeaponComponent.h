@@ -8,6 +8,24 @@
 
 class ADroneCharacter;
 
+USTRUCT(BlueprintType)
+struct FWeaponData
+{
+	GENERATED_USTRUCT_BODY()
+	
+	UPROPERTY(EditDefaultsOnly)
+	float Damage = 10.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Clips = 30;
+
+	UPROPERTY(EditDefaultsOnly)
+	int Bullets = 15;
+};
+DECLARE_LOG_CATEGORY_EXTERN(LogWeapon, Log, All);
+
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnAmmoChanged, float Bullets, float Clips);
+
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class DRONE_API UTP_WeaponComponent : public USkeletalMeshComponent
 {
@@ -45,16 +63,31 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	bool AttachWeapon(ADroneCharacter* TargetCharacter);
 
+	bool TryToAddAmmo(int Ammo);
+
 	/** Make the weapon Fire a Projectile */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
 
+	FOnAmmoChanged OnAmmoChanged;
+
 protected:
+	virtual void BeginPlay() override;
+	
 	/** Ends gameplay for this component. */
 	UFUNCTION()
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	FWeaponData DefaultWeaponData;
+
 private:
 	/** The Character holding this weapon*/
 	ADroneCharacter* Character;
+	FWeaponData CurrentWeaponData;
+
+	void DecreaseAmmo();
+	bool IsAmmoEmpty() const;
+	bool IsAmmoFull() const;
+	void Reload();
 };

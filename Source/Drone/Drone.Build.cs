@@ -11,8 +11,8 @@ public class Drone : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
 		
 		PublicIncludePaths.AddRange(new string[] {
-			"Components/",
-			"UI/",
+			"Drone/Components/",
+			"Drone/UI/",
 		});
 	}
 }

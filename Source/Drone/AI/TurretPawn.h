@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "TurretPawn.generated.h"
 
+class UWidgetComponent;
+class UEntityHUDWidget;
 class UTurretWeaponComponent;
 class UTP_WeaponComponent;
 class UHealthComponent;
@@ -33,4 +35,9 @@ protected:
 	UHealthComponent* HealthComponent;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component")
 	UTurretWeaponComponent* WeaponComponent;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	UWidgetComponent* WidgetComponent;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> EntityHUDWidgetClass;
 };

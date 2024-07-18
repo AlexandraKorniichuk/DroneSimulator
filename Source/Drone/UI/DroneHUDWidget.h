@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "EntityHUDWidget.h"
 #include "TP_WeaponComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "DroneHUDWidget.generated.h"
@@ -11,13 +12,9 @@
 class UHealthComponent;
 
 UCLASS()
-class DRONE_API UDroneHUDWidget : public UUserWidget
+class DRONE_API UDroneHUDWidget : public UEntityHUDWidget
 {
 	GENERATED_BODY()
-
-public:
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Health")
-	float GetHealthPercent();
 
 protected:
 	virtual void NativeConstruct() override;
@@ -27,17 +24,4 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Weapon")
 	void OnWeaponUnequipped(UTP_WeaponComponent* WeaponComponent);
 	void OnWeaponEquipped(UTP_WeaponComponent* WeaponComponent);
-	
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Health")
-	void OnHealthChanged(float Health);
-
-	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Health")
-	FLinearColor GetHealthBarColor(float HealthPercent) const;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Health")
-    UCurveLinearColor* HealthColorCurve;
-	
-private:
-	UHealthComponent* HealthComponent;
-	void SetHealthComponent();
 };

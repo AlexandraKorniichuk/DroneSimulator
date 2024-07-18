@@ -6,6 +6,7 @@
 #include "UHealthComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "DroneCharacter.h"
+#include "DroneHUDWidget.h"
 
 void ADroneHUD::BeginPlay()
 {
@@ -22,6 +23,7 @@ void ADroneHUD::BeginPlay()
 	if (HealthComponent)
 	{
 		HealthComponent->OnDeath.AddUObject(this, &ADroneHUD::SetDeathWidget);
+		Cast<UDroneHUDWidget>(GameWidget)->SetHealthComponent(HealthComponent);
 	}
 }
 

@@ -14,7 +14,15 @@ class DRONE_API ADroneHUD : public AHUD
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UUserWidget> HUDWidgetClass;
+	TSubclassOf<UUserWidget> GameWidgetClass;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> DeathWidgetClass;
 
 	virtual void BeginPlay() override;
+
+private:
+	APawn* Owner;
+	UUserWidget* GameWidget;
+
+	void SetDeathWidget() const;
 };

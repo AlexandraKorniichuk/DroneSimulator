@@ -13,14 +13,17 @@ struct FWeaponData
 {
 	GENERATED_USTRUCT_BODY()
 	
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta =(EditCondition = "!bInfiniteClips"))
 	float Damage = 10.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, meta =(EditCondition = "!bInfiniteClips"))
 	int Clips = 30;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta =(EditCondition = "!bInfiniteClips"))
 	int Bullets = 15;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool bInfiniteClips = false;
 };
 DECLARE_LOG_CATEGORY_EXTERN(LogWeapon, Log, All);
 
@@ -67,7 +70,7 @@ public:
 
 	/** Make the weapon Fire a Projectile */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
-	void Fire();
+	virtual void Fire();
 
 	FOnAmmoChanged OnAmmoChanged;
 

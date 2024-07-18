@@ -9,6 +9,8 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 
+DECLARE_LOG_CATEGORY_EXTERN(ProjectileLog, Log, All);
+
 UCLASS(config=Game)
 class ADroneProjectile : public AActor
 {

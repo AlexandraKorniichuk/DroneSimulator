@@ -46,6 +46,7 @@ public:
 	ADroneCharacter();
 
 	UTP_WeaponComponent* GetWeaponComponent() const { return WeaponComponent; }
+	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
 	/** Returns Mesh1P subobject **/
 	USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
@@ -78,5 +79,6 @@ protected:
 
 private:
 	void SetWeaponComponent(UTP_WeaponComponent* NewComponent) { WeaponComponent = NewComponent; }
+	void OnDeath();
 };
 

@@ -17,7 +17,7 @@ void UAmmoPickUpComponent::TryToAddAmmo(APawn* Pawn)
 	
 	if (!WeaponComponent) return;
 	
-	if (WeaponComponent && WeaponComponent->TryToAddAmmo(AmmoAmount))
+	if (WeaponComponent->TryToAddAmmo(AmmoAmount))
 	{
 		GetOwner()->Destroy();
 	}

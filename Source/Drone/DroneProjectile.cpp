@@ -1,8 +1,13 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "DroneProjectile.h"
+
+#include "UHealthComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "Engine/DamageEvents.h"
+
+DEFINE_LOG_CATEGORY(ProjectileLog)
 
 ADroneProjectile::ADroneProjectile() 
 {
@@ -28,6 +33,14 @@ ADroneProjectile::ADroneProjectile()
 
 void ADroneProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	UHealthComponent* HealthComponent = Cast<UHealthComponent>(OtherActor->GetComponentByClass(UHealthComponent::StaticClass()));
+	if (HealthComponent)
+	{
+		OtherActor->TakeDamage(1, FDamageEvent{}, nullptr, this);
+
+		Destroy();
+	}
+	
 	if (OtherActor && OtherActor != this && OtherComp && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());

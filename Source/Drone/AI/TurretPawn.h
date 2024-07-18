@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "TurretPawn.generated.h"
 
+class UTurretWeaponComponent;
+class UTP_WeaponComponent;
 class UHealthComponent;
 class UBehaviorTree;
 
@@ -17,12 +19,18 @@ class DRONE_API ATurretPawn : public APawn
 public:
 	ATurretPawn();
 
+	UFUNCTION(BlueprintPure)
+	UTurretWeaponComponent* GetWeaponComponent() const { return WeaponComponent; }
+
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
 	UBehaviorTree* BehaviorTree;
 
 protected:
 	virtual void BeginPlay() override;
+	void Die();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component")
 	UHealthComponent* HealthComponent;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component")
+	UTurretWeaponComponent* WeaponComponent;
 };

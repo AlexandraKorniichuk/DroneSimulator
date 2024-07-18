@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "UHealthComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Engine/LocalPlayer.h"
 #include "Engine/World.h"
@@ -30,7 +31,7 @@ void UTP_WeaponComponent::BeginPlay()
 
 void UTP_WeaponComponent::Fire()
 {
-	if (!Character || !Character->GetController())
+	if (!Character || !Character->GetController() || Character->GetHealthComponent()->IsDead())
 	{
 		return;
 	}
@@ -106,7 +107,7 @@ bool UTP_WeaponComponent::AttachWeapon(ADroneCharacter* TargetCharacter)
 
 bool UTP_WeaponComponent::TryToAddAmmo(int Ammo)
 {
-	if (IsAmmoFull())
+	if (IsAmmoFull() || CurrentWeaponData.bInfiniteClips)
 	{
 		return false;
 	}
@@ -125,6 +126,8 @@ bool UTP_WeaponComponent::TryToAddAmmo(int Ammo)
 
 void UTP_WeaponComponent::DecreaseAmmo()
 {
+	if (CurrentWeaponData.bInfiniteClips) return;
+	
 	CurrentWeaponData.Bullets--;
 
 	if (CurrentWeaponData.Bullets <= 0)
@@ -137,7 +140,7 @@ void UTP_WeaponComponent::DecreaseAmmo()
 
 void UTP_WeaponComponent::Reload()
 {
-	if (CurrentWeaponData.Clips <= 0) return;
+	if (CurrentWeaponData.Clips <= 0 || CurrentWeaponData.bInfiniteClips) return;
 
 	CurrentWeaponData.Clips--;
 	CurrentWeaponData.Bullets = DefaultWeaponData.Bullets;

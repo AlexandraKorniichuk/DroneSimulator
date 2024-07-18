@@ -48,7 +48,7 @@ float UDroneHUDWidget::GetHealthPercent()
 
 void UDroneHUDWidget::SetHealthComponent()
 {
-	HealthComponent = Cast<UHealthComponent>(GetOwningPlayerPawn()->GetComponentByClass(UHealthComponent::StaticClass()));
+	HealthComponent = Cast<ADroneCharacter>(GetOwningPlayerPawn())->GetHealthComponent();
 }
 
 FLinearColor UDroneHUDWidget::GetHealthBarColor(float HealthPercent) const

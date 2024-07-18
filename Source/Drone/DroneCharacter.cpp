@@ -8,6 +8,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Components/UHealthComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -29,13 +30,18 @@ ADroneCharacter::ADroneCharacter()
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
 
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>("HealthComponent");
-
-	OnWeaponEquipped.AddUObject(this, &ADroneCharacter::SetWeaponComponent);
 }
 
 void ADroneCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (HealthComponent)
+	{
+		HealthComponent->OnDeath.AddUObject(this, &ADroneCharacter::OnDeath);
+	}
+	
+	OnWeaponEquipped.AddUObject(this, &ADroneCharacter::SetWeaponComponent);
 }
 
 void ADroneCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -50,7 +56,6 @@ void ADroneCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
 }
-
 
 void ADroneCharacter::Move(const FInputActionValue& Value)
 {
@@ -72,5 +77,13 @@ void ADroneCharacter::Look(const FInputActionValue& Value)
 	{
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+void ADroneCharacter::OnDeath()
+{
+	if (auto* MovementComponent = GetCharacterMovement())
+	{
+		MovementComponent->DisableMovement();
 	}
 }

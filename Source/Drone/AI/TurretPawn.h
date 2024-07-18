@@ -13,6 +13,8 @@ class UTP_WeaponComponent;
 class UHealthComponent;
 class UBehaviorTree;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCanSeePlayerUpdated, bool, CanSeePlayer);
+
 UCLASS()
 class DRONE_API ATurretPawn : public APawn
 {
@@ -20,6 +22,9 @@ class DRONE_API ATurretPawn : public APawn
 
 public:
 	ATurretPawn();
+
+	UPROPERTY(BlueprintCallable)
+	FOnCanSeePlayerUpdated OnCanSeePlayerUpdated;
 
 	UFUNCTION(BlueprintPure)
 	UTurretWeaponComponent* GetWeaponComponent() const { return WeaponComponent; }
@@ -39,5 +44,5 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	UWidgetComponent* WidgetComponent;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UUserWidget> EntityHUDWidgetClass;
+	TSubclassOf<UUserWidget> TurretHUDWidgetClass;
 };

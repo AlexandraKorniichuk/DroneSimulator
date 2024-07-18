@@ -4,6 +4,7 @@
 #include "TurretPawn.h"
 
 #include "EntityHUDWidget.h"
+#include "TurretHUDWidget.h"
 #include "TurretWeaponComponent.h"
 #include "UHealthComponent.h"
 #include "Components/WidgetComponent.h"
@@ -21,12 +22,13 @@ void ATurretPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UEntityHUDWidget* Widget = CreateWidget<UEntityHUDWidget>(GetWorld(), EntityHUDWidgetClass);
+	UTurretHUDWidget* Widget = CreateWidget<UTurretHUDWidget>(GetWorld(), TurretHUDWidgetClass);
 	WidgetComponent->SetWidget(Widget);
-	Widget = Cast<UEntityHUDWidget>(WidgetComponent->GetWidget());
+	Widget = Cast<UTurretHUDWidget>(WidgetComponent->GetWidget());
 	if (Widget)
 	{
 		Widget->SetHealthComponent(HealthComponent);
+		Widget->SetOwner(this);
 		WidgetComponent->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 	}
 

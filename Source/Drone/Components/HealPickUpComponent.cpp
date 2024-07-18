@@ -2,6 +2,8 @@
 
 
 #include "HealPickUpComponent.h"
+
+#include "DroneCharacter.h"
 #include "UHealthComponent.h"
 
 UHealPickUpComponent::UHealPickUpComponent()

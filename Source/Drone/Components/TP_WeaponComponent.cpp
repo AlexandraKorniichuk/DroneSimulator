@@ -2,7 +2,7 @@
 
 
 #include "TP_WeaponComponent.h"
-#include "Drone/DroneCharacter.h"
+#include "DroneCharacter.h"
 #include "Drone/DroneProjectile.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
@@ -53,7 +53,9 @@ void UTP_WeaponComponent::Fire()
 		FActorSpawnParameters ActorSpawnParams;
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 	
-		World->SpawnActor<ADroneProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		auto Projectile = World->SpawnActor<ADroneProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		Projectile->SetDamage(CurrentWeaponData.Damage);
+		Projectile->SetInstigator(GetOwner());
 	}
 	
 	if (FireSound)

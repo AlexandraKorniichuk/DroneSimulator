@@ -4,18 +4,20 @@
 #include "TurretWeaponComponent.h"
 
 #include "Drone/DroneProjectile.h"
+#include "Kismet/KismetMathLibrary.h"
 
-void UTurretWeaponComponent::Fire()
+void UTurretWeaponComponent::FireInPlayer(FVector PlayerLocation)
 {
 	if (UWorld* const World = GetWorld())
 	{
-		//AController* Controller = Cast<AController>(Cast<APawn>(GetOwner())->GetController());
-		const FRotator SpawnRotation = GetOwner()->GetActorRotation();
-		const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
-	
+		const FVector SpawnLocation = GetOwner()->GetActorLocation() + GetOwner()->GetActorRotation().RotateVector(MuzzleOffset);
+		const FRotator SpawnRotation = UKismetMathLibrary::FindLookAtRotation(SpawnLocation, PlayerLocation);
+		
 		FActorSpawnParameters ActorSpawnParams;
 		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 	
-		World->SpawnActor<ADroneProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		auto Projectile = World->SpawnActor<ADroneProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		Projectile->SetDamage(CurrentWeaponData.Damage);
+		Projectile->SetInstigator(GetOwner());
 	}
 }

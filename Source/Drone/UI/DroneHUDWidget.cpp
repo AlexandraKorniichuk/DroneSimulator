@@ -5,7 +5,7 @@
 
 #include "TP_WeaponComponent.h"
 #include "Curves/CurveLinearColor.h"
-#include "Drone/DroneCharacter.h"
+#include "DroneCharacter.h"
 #include "Drone/Components/UHealthComponent.h"
 
 void UDroneHUDWidget::NativeConstruct()

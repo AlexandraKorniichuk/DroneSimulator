@@ -33,10 +33,12 @@ ADroneProjectile::ADroneProjectile()
 
 void ADroneProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	if (OtherActor == Instigator) return;
+	
 	UHealthComponent* HealthComponent = Cast<UHealthComponent>(OtherActor->GetComponentByClass(UHealthComponent::StaticClass()));
 	if (HealthComponent)
 	{
-		OtherActor->TakeDamage(1, FDamageEvent{}, nullptr, this);
+		OtherActor->TakeDamage(Damage, FDamageEvent{}, nullptr, this);
 
 		Destroy();
 	}

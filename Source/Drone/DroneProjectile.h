@@ -35,5 +35,12 @@ public:
 	USphereComponent* GetCollisionComp() const { return CollisionComp; }
 	/** Returns ProjectileMovement subobject **/
 	UProjectileMovementComponent* GetProjectileMovement() const { return ProjectileMovement; }
+
+	void SetDamage(float NewDamage) { Damage = NewDamage; }
+	void SetInstigator(AActor* NewInstigator) { Instigator = NewInstigator; }
+
+private:
+	float Damage;
+	AActor* Instigator;
 };
 

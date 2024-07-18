@@ -15,5 +15,6 @@ class DRONE_API UTurretWeaponComponent : public UTP_WeaponComponent
 	GENERATED_BODY()
 
 public:
-	virtual void Fire() override;
+	UFUNCTION(BlueprintCallable, Category="Weapon")
+	void FireInPlayer(FVector PlayerLocation);
 };

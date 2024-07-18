@@ -13,7 +13,7 @@ struct FWeaponData
 {
 	GENERATED_USTRUCT_BODY()
 	
-	UPROPERTY(EditDefaultsOnly, meta =(EditCondition = "!bInfiniteClips"))
+	UPROPERTY(EditDefaultsOnly)
 	float Damage = 10.0f;
 
 	UPROPERTY(EditAnywhere, meta =(EditCondition = "!bInfiniteClips"))
@@ -55,7 +55,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputMappingContext* FireMappingContext;
 
-	/** Fire Input Action */
+	/** FireInPlayer Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	class UInputAction* FireAction;
 
@@ -70,7 +70,7 @@ public:
 
 	/** Make the weapon Fire a Projectile */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
-	virtual void Fire();
+	void Fire();
 
 	FOnAmmoChanged OnAmmoChanged;
 
@@ -84,10 +84,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FWeaponData DefaultWeaponData;
 
+	FWeaponData CurrentWeaponData;
+	
 private:
 	/** The Character holding this weapon*/
 	ADroneCharacter* Character;
-	FWeaponData CurrentWeaponData;
 
 	void DecreaseAmmo();
 	bool IsAmmoEmpty() const;

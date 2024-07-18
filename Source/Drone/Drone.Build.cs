@@ -15,6 +15,7 @@ public class Drone : ModuleRules
 			"Drone/Components",
 			"Drone/UI",
 			"Drone/AI",
+			"Drone/Player"
 		});
 	}
 }

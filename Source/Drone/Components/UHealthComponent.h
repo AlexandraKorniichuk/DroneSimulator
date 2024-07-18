@@ -21,6 +21,7 @@ public:
 	float GetHealthPercent() const { return Health / MaxHealth; }
 
 	float GetHealth() const { return Health; }
+	UFUNCTION(BlueprintCallable)
 	bool IsDead() const { return FMath::IsNearlyZero(Health); }
 	bool IsFullHealth() const { return FMath::IsNearlyEqual(Health, MaxHealth); }
 	bool TryToHeal(float HealAmount);

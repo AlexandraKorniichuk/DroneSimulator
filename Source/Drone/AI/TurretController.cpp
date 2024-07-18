@@ -4,6 +4,7 @@
 #include "TurretController.h"
 
 #include "TurretPawn.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 
 ATurretController::ATurretController()
@@ -20,5 +21,17 @@ void ATurretController::OnPossess(APawn* InPawn)
 	if (Turret)
 	{
 		RunBehaviorTree(Turret->BehaviorTree);
+	}
+}
+
+void ATurretController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	UBlackboardComponent* BlackboardComponent = GetBlackboardComponent();
+	if (BlackboardComponent && BlackboardComponent->GetValueAsBool("CanSeePlayer"))
+	{
+		FVector PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+		BlackboardComponent->SetValueAsVector("PlayerLocation", PlayerLocation);
 	}
 }

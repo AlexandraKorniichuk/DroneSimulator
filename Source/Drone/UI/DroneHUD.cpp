@@ -5,7 +5,7 @@
 
 #include "UHealthComponent.h"
 #include "Blueprint/UserWidget.h"
-#include "Drone/DroneCharacter.h"
+#include "DroneCharacter.h"
 
 void ADroneHUD::BeginPlay()
 {

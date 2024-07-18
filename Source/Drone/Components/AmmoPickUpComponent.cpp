@@ -3,6 +3,7 @@
 
 #include "AmmoPickUpComponent.h"
 
+#include "DroneCharacter.h"
 #include "TP_WeaponComponent.h"
 
 UAmmoPickUpComponent::UAmmoPickUpComponent()

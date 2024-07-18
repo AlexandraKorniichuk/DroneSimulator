@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
-#include "Drone/DroneCharacter.h"
 #include "TP_PickUpComponent.generated.h"
 
 

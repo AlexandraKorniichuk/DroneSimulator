@@ -2,6 +2,8 @@
 
 #include "TP_PickUpComponent.h"
 
+#include "DroneCharacter.h"
+
 UTP_PickUpComponent::UTP_PickUpComponent()
 {
 	SphereRadius = 32.f;
